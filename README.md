@@ -5,16 +5,27 @@ This is a job scheduler which uses the FCFS and Round Robin algorithms to proces
 Jobs are described in text files, located in the resources/ directory. The text files are formatted as follows: 
 
 100
+
 600
+
 11
+
 2 10
+
 5 8
+
 9 1
+
 15 4
+
 37 4
+
 40 7
+
 53 6
+
 56 8
+
 66 3
 
 Where the first three lines indicate the number of jobs, the simulation time, and the maximum length of each job, respectively.
