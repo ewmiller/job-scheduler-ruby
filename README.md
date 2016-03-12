@@ -6,7 +6,7 @@ Jobs are described in text files, located in the resources/ directory. The text 
 
 100  
 600  
-11
+11  
 2 10  
 5 8  
 9 1  
