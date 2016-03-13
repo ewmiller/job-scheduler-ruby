@@ -16,6 +16,19 @@ class PartOne
   def initialize
   end
 
+  # perform operations on currently queued jobs
+  def timeStep(jobQueue)
+    if(jobQueue.empty?)
+      return
+    else
+      # increment the job in the front of the line. Add to wait time of others
+      jobQueue[0].increment
+      (1..((jobQueue.length) -1)).each do |i|
+        jobQueue[i].wait
+      end
+    end
+  end
+
   # process an individual trace file
   def fcfs(traceFile, outputFile)
     puts("Analyzing: #{traceFile} in FCFS")
@@ -28,9 +41,11 @@ class PartOne
     simTime = traceArr[1].to_i
     maxJobLength = traceArr[2].to_i
 
-    # simulation
+    # set variables for simulation
     timer = 0
-    allJobs = Queue.new
+    allJobs = Array.new
+    currJobs = Array.new
+    finishedJobs = Array.new
 
     # for each line in the trace file that describes a job, create job object
     (3..((traceArr.length)-1)).each do |i|
@@ -38,18 +53,38 @@ class PartOne
       allJobs.push(Job.new(str[0], str[1]))
     end
 
-    while(timer < 600) do
-      # TODO: change this, it's just to show that the queue works
-      if(allJobs.empty?)
-        break
-      else
-        currJob = allJobs.pop
-        puts(currJob.getLength)
-        timer+=1
+    # TODO: this.
+    while(timer <= simTime) do
+
+      # take the next job from the allJobs queue if necessary
+      unless allJobs.empty?
+        nextTime = allJobs[0].getStartTime
+
+        # TODO: for some reason, this condition isn't being met, so no jobs
+        # get queued. 
+        if(nextTime == timer)
+          puts("Current time: #{timer}")
+          puts("Adding job to currJobs: #{allJobs[0]}")
+          currJobs.push(allJobs.shift)
+        end
       end
+
+      unless currJobs.empty?
+        if(currJobs[0].getTimeLeft == 0)
+          finishedJobs.push(currJobs.shift)
+        end
+      end
+
+      # do operations on the current job queue
+      timeStep(currJobs)
+
+      puts("Current time: #{timer}. Incrementing timer.")
+      timer+=1
     end
 
-  end
+    puts("Finished jobs: #{finishedJobs}")
+
+  end # end fcfs
 
   def rr(traceFile, outputFile)
     puts("Analyzing #{traceFile} in RR")

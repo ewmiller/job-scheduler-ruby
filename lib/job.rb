@@ -18,11 +18,15 @@ class Job
     @timeLeft -= 1
   end
 
-  def getTime
+  def getStartTime
+    return @startTime
+  end
+
+  def getTimeLeft
     return @timeLeft
   end
 
-  def getLength
+  def getJobLength
     return @jobLength
   end
 
