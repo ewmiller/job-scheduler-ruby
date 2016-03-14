@@ -18,7 +18,7 @@
 
 require_relative 'job.rb'
 
-class PartOne
+class JobScheduler
 
   def initialize
   end
