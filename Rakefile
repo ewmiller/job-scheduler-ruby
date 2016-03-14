@@ -1,5 +1,5 @@
 task :default do
-	ruby "lib/part_one.rb"
+	ruby "lib/job_scheduler.rb"
 end
 
 task :clean do
