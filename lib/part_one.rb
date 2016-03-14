@@ -8,6 +8,11 @@
 # It's not as simple as just having a queue, because we have to account for
 # job arrival time. We'll need a queue of all the jobs, a system clock, and a queue
 # of jobs that have arrived and are waiting.
+#
+# Methods: there will be a process method to read the file. It will return the
+# simTime and an array of jobs.
+# the simtime and array of jobs will then be passed to fcfs and rr for the actual
+# scheduling.
 
 require_relative 'job.rb'
 
@@ -23,7 +28,7 @@ class PartOne
     else
       # increment the job in the front of the line. Add to wait time of others
       jobQueue[0].increment
-      (1..((jobQueue.length) -1)).each do |i|
+      (1..((jobQueue.length)-1)).each do |i|
         jobQueue[i].wait
       end
     end
@@ -46,6 +51,7 @@ class PartOne
     allJobs = Array.new
     currJobs = Array.new
     finishedJobs = Array.new
+    totalWaitTime = 0
 
     # for each line in the trace file that describes a job, create job object
     (3..((traceArr.length)-1)).each do |i|
@@ -53,18 +59,11 @@ class PartOne
       allJobs.push(Job.new(str[0], str[1]))
     end
 
-    # TODO: this.
     while(timer <= simTime) do
-
       # take the next job from the allJobs queue if necessary
       unless allJobs.empty?
         nextTime = allJobs[0].getStartTime
-
-        # TODO: for some reason, this condition isn't being met, so no jobs
-        # get queued. 
         if(nextTime == timer)
-          puts("Current time: #{timer}")
-          puts("Adding job to currJobs: #{allJobs[0]}")
           currJobs.push(allJobs.shift)
         end
       end
@@ -77,13 +76,21 @@ class PartOne
 
       # do operations on the current job queue
       timeStep(currJobs)
-
-      puts("Current time: #{timer}. Incrementing timer.")
       timer+=1
     end
 
-    puts("Finished jobs: #{finishedJobs}")
+    finishedJobs.each do |job|
+      totalWaitTime += job.getWaitTime
+    end
 
+    puts("Finished jobs from #{traceFile}.")
+    puts("Total wait time: #{totalWaitTime}")
+    puts("Total jobs: #{totalJobs}")
+    averageWait = totalWaitTime.to_f/totalJobs.to_f
+    puts("Average wait time: #{averageWait}")
+
+    formattedFile = traceFile.split("/").pop.split(".").shift
+    outputFile.puts("FCFS #{formattedFile}: #{averageWait}")
   end # end fcfs
 
   def rr(traceFile, outputFile)

@@ -5,9 +5,10 @@ class Job
   @waitTime = 0
 
   def initialize(startTime, jobLength)
-    @startTime = startTime
-    @jobLength = jobLength
-    @timeLeft = jobLength
+    @startTime = startTime.to_i
+    @jobLength = jobLength.to_i
+    @timeLeft = jobLength.to_i
+    @waitTime = 0
   end
 
   def wait
@@ -16,6 +17,10 @@ class Job
 
   def increment
     @timeLeft -= 1
+  end
+
+  def getWaitTime
+    return @waitTime
   end
 
   def getStartTime
