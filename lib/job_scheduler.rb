@@ -1,9 +1,8 @@
 ##
 # Overall approach:
-# Each line of each trace file has specific info about the jobs to simulate.
-# I've created a "job" class to represent these. Instances of the job class will
-# be declared within processTrace as it iterates through a file's contents.
-#
+# Each line of each trace file has information about a job to schedule.
+# The main method opens each file for reading, and calls the fcfs and rr methods 
+# to read the files and print the algorithm results to solution.txt. 
 
 require_relative 'job.rb'
 
@@ -159,9 +158,7 @@ class JobScheduler
       files = Dir.glob("./resources/*.txt")
       files.each do |traceFile|
         fcfs(traceFile, outputFile)
-      end
-      files.each do |traceFile|
-        rr(traceFile, outputFile)
+		rr(traceFile, outputFile)
       end
     end
   end # end main
