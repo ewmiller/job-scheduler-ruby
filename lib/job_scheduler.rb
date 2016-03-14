@@ -4,17 +4,6 @@
 # I've created a "job" class to represent these. Instances of the job class will
 # be declared within processTrace as it iterates through a file's contents.
 #
-# TODO: implement the actual scheduling part, both RR and FCFS.
-# It's not as simple as just having a queue, because we have to account for
-# job arrival time. We'll need a queue of all the jobs, a system clock, and a queue
-# of jobs that have arrived and are waiting.
-#
-# Methods: there will be a process method to read the file. It will return the
-# simTime and an array of jobs.
-# the simtime and array of jobs will then be passed to fcfs and rr for the actual
-# scheduling.
-
-#$$$$ = currJobs.push(currJobs.shift) to reorder for RR!!!!!!
 
 require_relative 'job.rb'
 
@@ -179,5 +168,5 @@ class JobScheduler
 
 end # end class
 
-p1 = PartOne.new
+p1 = JobScheduler.new
 p1.main
